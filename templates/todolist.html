@@ -1,0 +1,65 @@
+<h1>To Do List</h1>
+<hr />
+<style>
+    body {text-align:center;
+        background-color:#FFE8E7;
+        font-family: Roboto, sans-serif;
+        font-size: larger;}
+    ul {
+    display: inline-block;
+    padding-left: 0;
+    text-align: left;
+    }
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  background-color:#FFF8F7;
+}
+
+td, th {
+  border: 1px solid #ffaaaa;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #ffdddd;
+}
+    
+</style>
+
+<form style="font-size: larger;" action="/addTodoItem/" method = "post">{% csrf_token %}
+    Content: <input type="text" name="content">
+    Day: <input type="text" name="day">
+    <input type="submit" value="Add Todo Item">
+</form>
+
+<table>
+    <tr style="font-size: larger;" >
+	    <th>Content</th>
+	    <th> Day</th>
+	    <th> Delete </th>
+	    <th> Update </th>
+    </tr>
+    {% for i in all_items %} 
+    <tr style="font-size: larger;" >
+	    <td>{{i.content}}</td>
+	    <td>{{ i.day}}</td>
+    	<td>
+        <form action="/deleteTodoItem/{{i.id}}/" method = "post">{% csrf_token %}
+            <input type="submit" value="Delete">
+        </form> 
+	</td>
+	
+	<td>
+        <form action="/updateTodoItem/{{i.id}}/" method = "post">{% csrf_token %}
+            Content: <input type="text" name="content">
+            Day:<input type="text" name="day">
+            <input type="submit" value="Update">
+        </form>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
